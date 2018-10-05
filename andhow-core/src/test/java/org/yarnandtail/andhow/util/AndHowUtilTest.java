@@ -5,6 +5,8 @@ package org.yarnandtail.andhow.util;
 import java.lang.reflect.Method;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -45,5 +47,43 @@ public class AndHowUtilTest {
 	public static class C extends B {
 
 	}
-	
+
+	/**
+	 * Test of classExists method, of class AndHowUtil.
+	 */
+	@Test
+	public void testClassExists() {
+		assertThat(true, is(equalTo(AndHowUtil.classExists("java.lang.String"))));
+
+		assertThat(false, is(equalTo(AndHowUtil.classExists(""))));
+		assertThat(false, is(equalTo(AndHowUtil.classExists(null))));
+		assertThat(false, is(equalTo(AndHowUtil.classExists("testClassName"))));
+	}
+
+	/**
+	 * Test of getClassForName method, of class AndHowUtil.
+	 */
+	@Test
+	public void testGetClassForName() {
+		assertThat(String.class, is(equalTo(AndHowUtil.getClassForName("java.lang.String"))));
+
+		assertThat(null, is(equalTo(AndHowUtil.getClassForName(""))));
+		assertThat(null, is(equalTo(AndHowUtil.getClassForName(null))));
+		assertThat(null, is(equalTo(AndHowUtil.getClassForName("testClassName"))));
+	}
+
+	/**
+	 * Test of getClassInstanceForName method, of class AndHowUtil.
+	 */
+	@Test
+	public void testGetClassInstanceForName() throws IllegalAccessException, InstantiationException {
+		assertThat(String.class.newInstance(), is(equalTo(AndHowUtil.getClassInstanceForName("java.lang.String"))));
+
+		assertThat(null, is(equalTo(AndHowUtil.getClassInstanceForName(""))));
+		assertThat(null, is(equalTo(AndHowUtil.getClassInstanceForName(null))));
+		assertThat(null, is(equalTo(AndHowUtil.getClassInstanceForName("testClassName"))));
+		assertThat(null, is(equalTo(AndHowUtil.getClassInstanceForName("java.lang.Runnable"))));
+
+	}
+
 }
